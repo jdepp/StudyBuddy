@@ -1,4 +1,4 @@
-// This is the "main method" of NodeJs and imports the libraries we need and defines our controller and what port to listen to requests on.
+// This is the "main method" of NodeJs and imports the libraries we need and defines our controller and what port to listen to requests on
 
 const express = require('express');
 const bodyParser = require('body-parser');
