@@ -34,12 +34,12 @@ router.get('/:id', (req, res) => {
 /* POST StudySet */
 router.post('/', (req, res) => {
 
-  var emp = new StudySet({
+  var studyset = new StudySet({
     name: req.body.name,
     notecards: req.body.notecards
   });
 
-  emp.save((err, doc) => {
+  studyset.save((err, doc) => {
     if(!err)
       res.send(doc);
     else
@@ -47,5 +47,27 @@ router.post('/', (req, res) => {
   });
 
 });
+
+/* PUT */
+router.put('/:id', (req, res) => {
+
+    if(!ObjectId.isValid(req.params.id))
+        return res.status(400).send('No record with given id: ' + req.params.id);
+
+    var studyset = {
+        name: req.body.name,
+        notecards: req.body.notecards
+    };
+
+    StudySet.findByIdAndUpdate(req.params.id, {$set: studyset}, { new: true }, (err, doc) => {
+        if (!err)
+            res.send(doc);
+        else
+            console.log('Error in Employee UPDATE: ' + JSON.stringify(err, undefined, 2));
+    });
+
+
+});
+
 
 module.exports = router;
