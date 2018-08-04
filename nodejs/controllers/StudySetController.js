@@ -48,6 +48,8 @@ router.post('/', (req, res) => {
 
 });
 
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 /* PUT */
 router.put('/:id', (req, res) => {
 
@@ -70,4 +72,26 @@ router.put('/:id', (req, res) => {
 });
 
 
+=======
+=======
+>>>>>>> Stashed changes
+/* DELETE StudySet */
+router.delete('/:id', (req, res) => {
+
+  if(!ObjectId.isValid(req.params.id))
+    return res.status(400).send('No StudySet with given id: ' + req.params.id);
+
+  StudySet.findByIdAndRemove(req.params.id, (err, doc) => {
+    if(!err)
+      res.send(doc);
+    else
+      console.log('Error in StudySet DELETE: ' + JSON.stringify(err, undefined, 2));
+  });
+
+});
+
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 module.exports = router;
