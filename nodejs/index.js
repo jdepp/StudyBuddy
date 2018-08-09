@@ -13,8 +13,8 @@ var app = express();
 app.use(bodyParser.json());
 
 // TODO: fix this ?
-app.use(cors({ origin: 'http://localhost:4200' }));
+//app.use(cors({ origin: 'http://localhost:4200' }));
 
 app.listen(4000, () => console.log('Server started on port 4000'));
 
-app.use('api/studysets', studySetController);
+app.use('/api/studysets', studySetController);
