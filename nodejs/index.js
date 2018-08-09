@@ -11,8 +11,10 @@ var studySetController = require('./controllers/StudySetController.js');
 
 var app = express();
 app.use(bodyParser.json());
+
+// TODO: fix this ?
 app.use(cors({ origin: 'http://localhost:4200' }));
 
-app.listen(3000, () => console.log('Server started on port 3000'));
+app.listen(4000, () => console.log('Server started on port 4000'));
 
-app.use('/studysets', studySetController);
+app.use('api/studysets', studySetController);
