@@ -17,8 +17,8 @@ class StudySets extends Component {
              studysets)));
     }
 
-    buttonPressed = () => {
-        alert('pressed')
+    buttonPressed = (name) => {
+        alert('Name: ' + name)
     }
 
 
@@ -29,8 +29,8 @@ class StudySets extends Component {
             <h2>Study Sets</h2>
             <ul>
                 {this.state.studysets.map(studyset =>
-                    <button onClick= {this.buttonPressed}>
-                        <li key = {studyset._id}>{ studyset.name }</li>
+                    <button onClick= {() => this.buttonPressed(studyset.name)}>
+                        <li key = {studyset._id}>{ studyset.name } {studyset._id}</li>
                     </button>
                 )}
             </ul>
