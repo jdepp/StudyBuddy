@@ -17,6 +17,11 @@ class StudySets extends Component {
              studysets)));
     }
 
+    buttonPressed = () => {
+        alert('pressed')
+    }
+
+
 
       render() {
         return (
@@ -24,7 +29,9 @@ class StudySets extends Component {
             <h2>Study Sets</h2>
             <ul>
                 {this.state.studysets.map(studyset =>
-                    <li key = {studyset._id}>{ studyset.name }</li>
+                    <button onClick= {this.buttonPressed}>
+                        <li key = {studyset._id}>{ studyset.name }</li>
+                    </button>
                 )}
             </ul>
           </div>
