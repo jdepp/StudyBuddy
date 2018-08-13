@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import StudySets from './components/studysets/studysets'
+import Notecards from './components/notecards/notecards'
 
 class App extends Component {
   render() {
@@ -11,7 +12,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Study Buddy</h1>
         </header>
-        <StudySets />
+        <Notecards />
       </div>
     );
   }
