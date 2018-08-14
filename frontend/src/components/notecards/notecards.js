@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+
 class Notecards extends Component {
 
     constructor() {
@@ -37,8 +38,8 @@ class Notecards extends Component {
         alert (this.state.defValue)
     }
 
-    handleShowNoteCardClick = () => {
-        this.setState({showNoteCardDialogue: true})
+    handleShowNoteCardClick = (result) => {
+        this.setState({showNoteCardDialogue: result})
     }
 
 
@@ -80,13 +81,31 @@ class Notecards extends Component {
             <input
                 type = 'button'
                 value = 'Add Notecard'
-                onClick= {this.handleShowNoteCardClick} />
+                onClick= {() => this.handleShowNoteCardClick(true)} />
+
+        const removeNoteCardDialoueButton =
+            <input
+                type = 'button'
+                value = 'Done Adding'
+                onClick= {() => this.handleShowNoteCardClick(false)} />
 
         // TODO: Combine dialogues into one
         // const noteCardDialogue = showNoteCardDialogue
         //     ? termDialogue
         //     : <div/>
 
+
+
+        /* THIS WORKS */
+        // <ul>
+        //     {this.state.studysets.map(studyset => (
+        //         <li key = {studyset._id}>
+        //             <b>Term:</b> {studyset.notecards[0].term}
+        //             &nbsp;
+        //             <b>Definition:</b> {studyset.notecards[0].definition}
+        //         </li>
+        //     ))}
+        // </ul>
         return (
             <div>
                 <h2>Notecards</h2>
@@ -112,7 +131,8 @@ class Notecards extends Component {
                     <br/>
                     <br/>
 
-                    {showNoteCardDialogueButton}
+                    {!this.state.showNoteCardDialogue && showNoteCardDialogueButton}
+                    {this.state.showNoteCardDialogue && removeNoteCardDialoueButton}
             </div>
         );
     }
