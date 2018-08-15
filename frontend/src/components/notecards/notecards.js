@@ -1,24 +1,23 @@
 import React, { Component } from 'react'
-
+import axios from 'axios'
 
 class Notecards extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            studysets: [],
+            notecards: [],
             termValue: '',
             defValue: '',
+            id: props.id,
             showNoteCardDialogue: false
         }
     }
 
     /* THIS WORKS */
     componentDidMount() {
-        fetch('http://localhost:4000/api/studysets/')
-            .then(res => res.json())
-            .then(studysets => this.setState({studysets}, () => console.log('StudySets fetched from Notecard.js..',
-             studysets)));
+        axios.get('http://localhost:4000/api/studysets/' + this.state.id)
+            .then(res => this.setState({notecards: res.data.notecards}))
     }
 
     // TODO: CREATE ONE SUBMIT BUTTON THAT HANDLES BOTH CHANGES
@@ -98,23 +97,21 @@ class Notecards extends Component {
 
         /* THIS WORKS */
         // <ul>
-        //     {this.state.studysets.map(studyset => (
-        //         <li key = {studyset._id}>
-        //             <b>Term:</b> {studyset.notecards[0].term}
-        //             &nbsp;
-        //             <b>Definition:</b> {studyset.notecards[0].definition}
-        //         </li>
-        //     ))}
+        //     {this.state.notecards.map(notecards =>
+        //         <button>
+        //             <li key = {notecards._id}>{ notecards.term } { notecards.definition }</li>
+        //         </button>
+        //     )}
         // </ul>
         return (
             <div>
                 <h2>Notecards</h2>
                 <ul>
-                    {this.state.studysets.map(studyset => (
-                        <li key = {studyset._id}>
-                            <b>Term:</b> {studyset.notecards[0].term}
+                    {this.state.notecards.map(notecard => (
+                        <li key = {notecard._id}>
+                            <b>Term:</b> {notecard.term}
                             &nbsp;
-                            <b>Definition:</b> {studyset.notecards[0].definition}
+                            <b>Definition:</b> {notecard.definition}
                         </li>
                     ))}
                 </ul>

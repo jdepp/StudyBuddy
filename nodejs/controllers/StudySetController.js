@@ -48,6 +48,7 @@ router.post('/', (req, res) => {
 
 });
 
+// TODO: be able to update only notecards
 /* PUT */
 router.put('/:id', (req, res) => {
 

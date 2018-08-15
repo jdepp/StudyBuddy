@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './studysets.css'
 import axios from 'axios'
+import Notecards from '../notecards/notecards'
 
 class StudySets extends Component {
 
@@ -8,7 +9,8 @@ class StudySets extends Component {
         super()
         this.state = {
             studysets: [],
-            studysetID: []
+            studysetID: -1,
+            showNotecard: false
         }
     }
 
@@ -17,7 +19,7 @@ class StudySets extends Component {
         axios.get('http://localhost:4000/api/studysets/')
 
             /* displays all data retrievied */
-            //.then(json => console.log(json))
+            // .then(json => console.log(json))
 
             /* LINE BELOW SHOWS ORDER OF DATA FLOW */
             //.then(json => console.log(json.data[1].notecards[0].term))
@@ -39,44 +41,48 @@ class StudySets extends Component {
             //    })))
             // .then(newData => console.log(newData))
             // .then(newData => this.setState({studysets: newData, studysetID: newData}))
-            //.catch(error => alert(error))
+            // .catch(error => alert(error))
 
             /** THIS WORKS WHEN THE ABOVE IS COMMENTED OUT */
             .then(res => this.setState({studysets: res.data}))
     }
 
-    buttonPressed = (name) => {
-        alert('Name: ' + name)
+    buttonPressed = (id) => {
+        this.setState({studysetID: id})
+        this.setState({showNotecard: true})
     }
+
 
 
     /* THIS WORKS */
     render() {
+        const showNotecard = this.state.showNotecard
+
+        const notecard = showNotecard
+            ? <Notecards id = {this.state.studysetID}/>
+            : <div/>
+
+        const studysets = !showNotecard
+            ? <div><h2>Study Sets</h2>
+              <ul>
+                {this.state.studysets.map(studyset =>
+                <button onClick= {() => this.buttonPressed(studyset._id)}>
+                    <li key = {studyset._id}>{ studyset.name }</li>
+                </button>
+              )}
+              </ul></div>
+            : <div/>
+
         return (
           <div>
-            <h2>Study Sets</h2>
-            <ul>
-                {this.state.studysets.map(studyset =>
-                    <button onClick= {() => this.buttonPressed(studyset.name)}>
-                        <li key = {studyset._id}>{ studyset.name } {studyset._id}</li>
-                    </button>
-                )}
-            </ul>
+            {studysets}
+
+            {notecard}
+
           </div>
         );
     }
 
-    /* TESTING AXIOS */
-    // render() {
-    //     return (
-    //       <div>
-    //         <h2>Study Sets</h2>
-    //         <ul>
-    //
-    //         </ul>
-    //       </div>
-    //     );
-    // }
 }
 
 export default StudySets
