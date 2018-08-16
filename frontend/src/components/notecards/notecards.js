@@ -10,6 +10,7 @@ class Notecards extends Component {
             termValue: '',
             defValue: '',
             id: props.id,
+            studysetName: props.studysetName,
             showNoteCardDialogue: false
         }
     }
@@ -20,7 +21,6 @@ class Notecards extends Component {
             .then(res => this.setState({notecards: res.data.notecards}))
     }
 
-    // TODO: CREATE ONE SUBMIT BUTTON THAT HANDLES BOTH CHANGES
     termChanged = (event) => {
         this.setState({termValue: event.target.value})
     }
@@ -29,12 +29,8 @@ class Notecards extends Component {
         this.setState({defValue: event.target.value})
     }
 
-    handleTermClick = () => {
-        alert (this.state.termValue)
-    }
-
-    handleDefClick = () => {
-        alert (this.state.defValue)
+    handleSubmitClick = () => {
+        alert(this.state.termValue + ': ' + this.state.defValue)
     }
 
     handleShowNoteCardClick = (result) => {
@@ -47,34 +43,16 @@ class Notecards extends Component {
 
         const showNoteCardDialogue = this.state.showNoteCardDialogue
 
-        const termDialogue = showNoteCardDialogue
-            ? <p> Term: <input
-                type ='Text'
-                value = {this.state.termValue}
-                onChange={this.termChanged} /> </p>
-            : <div/>
-
-        const defDialogue = showNoteCardDialogue
-            ? <p> Definition: <input
-                type ='Text'
-                value = {this.state.defValue}
-                onChange={this.defChanged} /> </p>
-            : <div/>
-
-
-        const termSubmitButton = showNoteCardDialogue
-            ? <input
-                type ='button'
-                value = 'Submit'
-                onClick={this.handleTermClick} />
-            : <div/>
-
-        const defSubmitButton = showNoteCardDialogue
-            ? <input
-                type ='button'
-                value = 'Submit'
-                onClick={this.handleDefClick} />
-            : <div/>
+        const notecardList =
+            <ul>
+                {this.state.notecards.map(notecard => (
+                    <li key = {notecard._id}>
+                        <b>Term:</b> {notecard.term}
+                        &nbsp;
+                        <b>Definition:</b> {notecard.definition}
+                        </li>
+                    ))}
+            </ul>
 
         const showNoteCardDialogueButton =
             <input
@@ -88,42 +66,32 @@ class Notecards extends Component {
                 value = 'Done Adding'
                 onClick= {() => this.handleShowNoteCardClick(false)} />
 
-        // TODO: Combine dialogues into one
-        // const noteCardDialogue = showNoteCardDialogue
-        //     ? termDialogue
-        //     : <div/>
+        const noteCardDialogue = showNoteCardDialogue
+            ?  <div>
 
+                Term: <input
+                type ='Text'
+                value = {this.state.termValue}
+                onChange={this.termChanged} />
 
+                Definition: <input
+                    type ='Text'
+                    value = {this.state.defValue}
+                    onChange={this.defChanged} />
 
-        /* THIS WORKS */
-        // <ul>
-        //     {this.state.notecards.map(notecards =>
-        //         <button>
-        //             <li key = {notecards._id}>{ notecards.term } { notecards.definition }</li>
-        //         </button>
-        //     )}
-        // </ul>
+                <input
+                    type ='button'
+                    value = 'Submit'
+                    onClick={this.handleSubmitClick} />
+
+                </div>
+            : <div/>
+
         return (
             <div>
-                <h2>Notecards</h2>
-                <ul>
-                    {this.state.notecards.map(notecard => (
-                        <li key = {notecard._id}>
-                            <b>Term:</b> {notecard.term}
-                            &nbsp;
-                            <b>Definition:</b> {notecard.definition}
-                        </li>
-                    ))}
-                </ul>
-
-                    {termDialogue}
-                    {termSubmitButton}
-
-                    <br/>
-                    <br/>
-
-                    {defDialogue}
-                    {defSubmitButton}
+                <h2>{this.state.studysetName} Notecards</h2>
+                    {notecardList}
+                    {noteCardDialogue}
 
                     <br/>
                     <br/>
@@ -133,20 +101,6 @@ class Notecards extends Component {
             </div>
         );
     }
-
-
-    // render() {
-    //   const terms = this.state.studysets.map((notecard =>
-    //       <li key = {notecard.term}>{notecard.term}</li> )
-    //   return (
-    //       <div>
-    //         <h2>Notecards</h2>
-    //             <ul>
-    //                 {terms}
-    //             </ul>
-    //       </div>
-    //   );
-    // }
 
 }
 

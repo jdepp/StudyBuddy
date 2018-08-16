@@ -10,6 +10,7 @@ class StudySets extends Component {
         this.state = {
             studysets: [],
             studysetID: -1,
+            studysetName: '',
             showNotecard: false
         }
     }
@@ -47,8 +48,9 @@ class StudySets extends Component {
             .then(res => this.setState({studysets: res.data}))
     }
 
-    buttonPressed = (id) => {
+    buttonPressed = (id,name) => {
         this.setState({studysetID: id})
+        this.setState({studysetName: name})
         this.setState({showNotecard: true})
     }
 
@@ -59,14 +61,14 @@ class StudySets extends Component {
         const showNotecard = this.state.showNotecard
 
         const notecard = showNotecard
-            ? <Notecards id = {this.state.studysetID}/>
+            ? <Notecards id = {this.state.studysetID} studysetName = {this.state.studysetName}/>
             : <div/>
 
         const studysets = !showNotecard
             ? <div><h2>Study Sets</h2>
               <ul>
                 {this.state.studysets.map(studyset =>
-                <button onClick= {() => this.buttonPressed(studyset._id)}>
+                <button onClick= {() => this.buttonPressed(studyset._id, studyset.name)}>
                     <li key = {studyset._id}>{ studyset.name }</li>
                 </button>
               )}
