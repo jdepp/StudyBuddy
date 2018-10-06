@@ -29,12 +29,14 @@ class Notecards extends Component {
         this.setState({defValue: event.target.value})
     }
 
-    handleSubmitClick = () => {
-        alert(this.state.termValue + ': ' + this.state.defValue)
-    }
-
     handleShowNoteCardClick = (result) => {
         this.setState({showNoteCardDialogue: result})
+    }
+
+    handleSubmitClick = () => {
+        //alert(this.state.termValue + ': ' + this.state.defValue)
+        axios.put('http://localhost:4000/api/studysets/' + this.state.id)
+            
     }
 
 
