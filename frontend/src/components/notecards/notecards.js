@@ -34,8 +34,8 @@ class Notecards extends Component {
     }
 
     handleSubmitClick = () => {
-        //alert(this.state.termValue + ': ' + this.state.defValue)
-        axios.put('http://localhost:4000/api/studysets/' + this.state.id)
+        alert(this.state.termValue + ' - ' + this.state.defValue)
+       // axios.put('http://localhost:4000/api/studysets/' + this.state.id)
             
     }
 
