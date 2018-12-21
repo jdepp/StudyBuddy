@@ -67,7 +67,6 @@ router.put('/:id', (req, res) => {
             console.log('Error in Employee UPDATE: ' + JSON.stringify(err, undefined, 2));
     });
 
-
 });
 
 /* DELETE StudySet */
