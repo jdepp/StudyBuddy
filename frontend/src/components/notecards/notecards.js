@@ -9,8 +9,9 @@ class Notecards extends Component {
             notecards: [],
             termValue: '',
             defValue: '',
-            id: props.id,
+            studysetId: props.id,
             studysetName: props.studysetName,
+            studyset: "", // The current studyset object
             showNoteCardDialogue: false,
             notecardTermEditing: '',
             notecardDefEditing: '',
@@ -19,7 +20,10 @@ class Notecards extends Component {
     }
 
     componentDidMount() {
-        AuthenticationService.getNotecards(this.state.id)
+        AuthenticationService.getNotecards(this.state.studysetId)
+            .then(res => this.setState({studyset: res.data}))
+
+        AuthenticationService.getNotecards(this.state.studysetId)
             .then(res => this.setState({notecards: res.data.notecards}))
     }
 
@@ -36,9 +40,11 @@ class Notecards extends Component {
     }
 
     handleSubmitClick = () => {
-        alert(this.state.termValue + ' - ' + this.state.defValue)
-       // axios.put('http://localhost:4000/api/studysets/' + this.state.id)
-            
+        var newState = Object.assign({}, this.state);
+        newState["notecards"].push({term: this.state.termValue, definition: this.state.defValue});
+        this.setState(newState);
+
+        AuthenticationService.addNotecard(this.state.termValue, this.state.defValue, this.state.studysetId);
     }
 
     handleEditClick = (notecardTerm, notecardDef) => {

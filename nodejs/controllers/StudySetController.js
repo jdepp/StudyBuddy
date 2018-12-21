@@ -48,7 +48,6 @@ router.post('/', (req, res) => {
 
 });
 
-// TODO: be able to update only notecards
 /* PUT */
 router.put('/:id', (req, res) => {
 
@@ -69,6 +68,54 @@ router.put('/:id', (req, res) => {
 
 
 });
+
+/**
+ * put for appending to notecard array
+ */
+/* PUT */
+router.put('/notecard/:id', (req, res) => {
+
+    console.log(req.body)
+    if(!ObjectId.isValid(req.params.id))
+        return res.status(400).send('No record with given id: ' + req.params.id);
+
+    getNotecards(req.params.id)
+        .then(function (result) {
+
+            var studyset = {
+                name: result.name,
+                notecards: result.notecards
+            };
+            console.log(req.body.newTerm)
+            console.log(req.body.newDefinition)
+            studyset.notecards.push({term: req.body.newTerm, definition: req.body.newDefinition});
+
+            StudySet.findByIdAndUpdate(req.params.id, {$set: studyset}, { new: true }, (err, doc) => {
+                if (!err)
+                    res.send(doc);
+                else
+                    console.log('Error in Employee UPDATE: ' + JSON.stringify(err, undefined, 2));
+            });
+        })
+        .catch(function notOk(err) {
+            console.log(err)
+        })
+
+});
+
+function getNotecards(studysetId) {
+    return new Promise(function (resolve, reject)
+    {
+        StudySet.findById(studysetId, (err, doc) => {
+            if(!err) {
+                resolve(doc)
+            }
+            else
+                reject(JSON.stringify(err, undefined, 2))
+        })
+    })
+}
+
 
 /* DELETE StudySet */
 router.delete('/:id', (req, res) => {
