@@ -11,12 +11,17 @@ class Notecards extends Component {
             defValue: '',
             id: props.id,
             studysetName: props.studysetName,
+            studysetID: props.studysetID,
+            studyset: "",
             showNoteCardDialogue: false
         }
     }
 
     /* THIS WORKS */
     componentDidMount() {
+        AuthenticationService.getStudySet(this.state.id)
+            .then(res => this.setState({studyset: res.data}))
+
         AuthenticationService.getNotecards(this.state.id)
             .then(res => this.setState({notecards: res.data.notecards}))
     }
@@ -34,9 +39,17 @@ class Notecards extends Component {
     }
 
     handleSubmitClick = () => {
-        alert(this.state.termValue + ' - ' + this.state.defValue)
-       // axios.put('http://localhost:4000/api/studysets/' + this.state.id)
-            
+        // Updates the state's notecard property by pushing the new notecard to the notecards[] array
+        var newState = Object.assign({}, this.state);
+        newState["notecards"].push({term: this.state.termValue, definition: this.state.defValue});
+        this.setState(newState);
+
+        // Gets the current studyset object and sets its notecards[] property to reflect the new notecards[]
+        var newStudySet = this.state.studyset
+        newStudySet.notecards = this.state.notecards
+        this.setState({studyset: newStudySet}) 
+
+        AuthenticationService.putStudySet(this.state.studyset, this.state.id)
     }
 
 
