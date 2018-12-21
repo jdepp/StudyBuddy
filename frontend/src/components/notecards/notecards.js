@@ -11,11 +11,13 @@ class Notecards extends Component {
             defValue: '',
             id: props.id,
             studysetName: props.studysetName,
-            showNoteCardDialogue: false
+            showNoteCardDialogue: false,
+            notecardTermEditing: '',
+            notecardDefEditing: '',
+            showNoteCardEditDialogue: false
         }
     }
 
-    /* THIS WORKS */
     componentDidMount() {
         AuthenticationService.getNotecards(this.state.id)
             .then(res => this.setState({notecards: res.data.notecards}))
@@ -39,11 +41,19 @@ class Notecards extends Component {
             
     }
 
+    handleEditClick = (notecardTerm, notecardDef) => {
+        this.setState({notecardTermEditing: notecardTerm})
+        this.setState({notecardDefEditing: notecardDef})
+        this.setState({showNoteCardEditDialogue: true})
+        this.setState({showNoteCardDialogue: true})
+    }
 
     /* THIS WORKS */
     render () {
 
         const showNoteCardDialogue = this.state.showNoteCardDialogue
+
+        const showNoteCardEditDialogue = this.state.showNoteCardEditDialogue
 
         const notecardList =
             <ul>
@@ -52,6 +62,8 @@ class Notecards extends Component {
                         <b>Term:</b> {notecard.term}
                         &nbsp;
                         <b>Definition:</b> {notecard.definition}
+                        &nbsp;
+                        <button onClick = {() => this.handleEditClick(notecard.term, notecard.definition)}>Edit</button>
                         </li>
                     ))}
             </ul>
@@ -74,17 +86,21 @@ class Notecards extends Component {
                 Term: <input
                 type ='Text'
                 value = {this.state.termValue}
+                placeholder={this.state.notecardTermEditing}
                 onChange={this.termChanged} />
 
                 Definition: <input
                     type ='Text'
                     value = {this.state.defValue}
-                    onChange={this.defChanged} />
+                    onChange={this.defChanged}
+                    placeholder={this.state.notecardDefEditing}
+                />
 
                 <input
                     type ='button'
                     value = 'Submit'
-                    onClick={this.handleSubmitClick} />
+                    onClick={this.handleSubmitClick}
+                />
 
                 </div>
             : <div/>
