@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+import AuthenticationService from '../../services/AuthenticationService.js'
 
 class Notecards extends Component {
 
@@ -17,7 +17,7 @@ class Notecards extends Component {
 
     /* THIS WORKS */
     componentDidMount() {
-        axios.get('http://localhost:4000/api/studysets/' + this.state.id)
+        AuthenticationService.getNotecards(this.state.id)
             .then(res => this.setState({notecards: res.data.notecards}))
     }
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './studysets.css'
-import axios from 'axios'
+import AuthenticationService from '../../services/AuthenticationService.js'
 import Notecards from '../notecards/notecards'
 
 class StudySets extends Component {
@@ -15,36 +15,11 @@ class StudySets extends Component {
         }
     }
 
-    /* TESTING AXIOS */
+    /**
+     * This method is called when page refreshes
+     */
     componentDidMount() {
-        axios.get('http://localhost:4000/api/studysets/')
-
-            /* displays all data retrievied */
-            // .then(json => console.log(json))
-
-            /* LINE BELOW SHOWS ORDER OF DATA FLOW */
-            //.then(json => console.log(json.data[1].notecards[0].term))
-
-            /* testing mapping notecards... might need filtering?
-             * TODO: (move to notecards.js) */
-            // .then (res => res.data[1].notecards.map(studyset => (
-            //     {
-            //             term: studyset.term,
-            //             definition: studyset.definition
-            //     })))
-            // .then(newData => console.log(newData))
-
-            /* testing mapping studyset names... might need filtering? */
-            // .then(res => res.data.map(studyset => (
-            //    {
-            //       studysets: studyset.name,
-            //       id: studyset._id
-            //    })))
-            // .then(newData => console.log(newData))
-            // .then(newData => this.setState({studysets: newData, studysetID: newData}))
-            // .catch(error => alert(error))
-
-            /** THIS WORKS WHEN THE ABOVE IS COMMENTED OUT */
+        AuthenticationService.getStudySets()
             .then(res => this.setState({studysets: res.data}))
     }
 
@@ -82,7 +57,7 @@ class StudySets extends Component {
             {notecard}
 
           </div>
-        );
+        )
     }
 
 }
